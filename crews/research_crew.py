@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 CrewAI Research Team - Multi-Agent Demo
 MIT Professional Education: Agentic AI
@@ -179,7 +180,7 @@ def check_ollama_model(model: str = "llama3.2") -> bool:
 # AGENT DEFINITIONS
 # =============================================================================
 
-def create_research_crew(llm, verbose: bool = True) -> Crew:
+def create_research_crew(llm, verbose: bool = True) -> "Crew":
     """
     Create a research crew with three specialized agents.
     
