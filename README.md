@@ -62,28 +62,66 @@ pip install -r requirements.txt
 streamlit run Home.py
 ```
 
-### For Multi-Agent Demo (Additional Setup)
+---
 
-The Multi-Agent Demo requires either Ollama or OpenAI:
+## 🤖 Multi-Agent Demo Setup
 
-**Ollama (Free, Local):**
+The Multi-Agent Demo lets you watch AI agents collaborate. You have two options for the AI "brain":
+
+### What is Ollama?
+
+**Ollama** lets you run powerful AI models **locally on your own computer** — for free, with no data leaving your machine. It's like having ChatGPT on your laptop, but you own it.
+
+| Feature | Ollama (Local) | OpenAI (Cloud) |
+|---------|----------------|----------------|
+| **Cost** | Free | ~$0.01/run |
+| **Privacy** | Data stays local | Data sent to cloud |
+| **Speed** | Depends on your hardware | Consistently fast |
+| **Internet** | Not required | Required |
+| **Setup** | Install + download model | Just need API key |
+
+### Option A: Ollama (Free, Local) — Recommended for Learning
+
 ```bash
-# Install Ollama
+# 1. Install Ollama
+# macOS:
+brew install ollama
+# Linux:
 curl -fsSL https://ollama.ai/install.sh | sh
+# Windows: Download from https://ollama.ai
 
-# Pull a model
+# 2. Download an AI model (4.7 GB, takes 2-5 min)
 ollama pull llama3.2
 
-# Start Ollama server
+# 3. Start the Ollama server (keep this running)
 ollama serve
+
+# 4. Install Python dependencies (in new terminal)
+pip install crewai langchain-community
 ```
 
-**OpenAI (Paid):**
+### Option B: OpenAI (Paid, Cloud) — Faster Results
+
 ```bash
+# 1. Get an API key from platform.openai.com
+# 2. Set it in your environment
 export OPENAI_API_KEY="sk-your-key-here"
+
+# 3. Install Python dependencies
+pip install crewai langchain-openai
 ```
 
-👉 See [docs/CREWAI_SETUP.md](docs/CREWAI_SETUP.md) for detailed setup instructions.
+---
+
+## 📚 Documentation
+
+| Guide | For Who | What It Covers |
+|-------|---------|----------------|
+| **[Beginner's Guide](docs/BEGINNERS_GUIDE.md)** | Absolute beginners | Full explanations of every technology, step-by-step setup, glossary |
+| **[CrewAI Setup](docs/CREWAI_SETUP.md)** | Quick reference | Commands, troubleshooting, CLI usage |
+| **[Docker Guide](docs/DOCKER_GUIDE.md)** | Container users | Docker-specific setup |
+
+**New to AI agents?** Start with the [Beginner's Guide](docs/BEGINNERS_GUIDE.md) — it explains everything from scratch.
 
 ---
 
@@ -99,8 +137,9 @@ AgenticAI_foundry/
 │   ├── __init__.py
 │   └── research_crew.py           # Agent logic (CLI + importable)
 ├── docs/
-│   ├── DOCKER_GUIDE.md            # Docker setup guide
-│   └── CREWAI_SETUP.md            # CrewAI/Ollama/OpenAI setup
+│   ├── BEGINNERS_GUIDE.md         # Comprehensive beginner tutorial
+│   ├── CREWAI_SETUP.md            # Quick setup reference
+│   └── DOCKER_GUIDE.md            # Docker setup guide
 ├── Dockerfile
 ├── requirements.txt
 └── README.md
@@ -119,13 +158,13 @@ python -m crews.research_crew --provider ollama --task "Research AI in healthcar
 # With OpenAI
 python -m crews.research_crew --provider openai --task "Research AI in healthcare"
 
-# Check setup
+# Check your setup
 python -m crews.research_crew --check
 ```
 
 ---
 
-## 📚 Module Connections
+## 📊 Module Connections
 
 ### Module 1: LLM Cost Explorer
 > **The same AI transaction can cost between $1 and $230** — a 200x variance!
@@ -141,12 +180,30 @@ See multi-agent orchestration in action with CrewAI.
 
 ## 🛠️ Technologies
 
-- **[Streamlit](https://streamlit.io/)** — Web app framework
-- **[CrewAI](https://github.com/joaomdmoura/crewAI)** — Multi-agent orchestration
-- **[Ollama](https://ollama.ai/)** — Local LLM runtime
-- **[LangChain](https://langchain.com/)** — LLM integrations
-- **[Plotly](https://plotly.com/)** — Interactive charts
-- **[Docker](https://www.docker.com/)** — Containerization
+| Technology | What It Does | Learn More |
+|------------|--------------|------------|
+| **[Streamlit](https://streamlit.io/)** | Web app framework | Creates the UI |
+| **[CrewAI](https://github.com/joaomdmoura/crewAI)** | Multi-agent orchestration | Coordinates agents |
+| **[Ollama](https://ollama.ai/)** | Local LLM runtime | Runs AI on your machine |
+| **[LangChain](https://langchain.com/)** | LLM integrations | Connects to AI providers |
+| **[Plotly](https://plotly.com/)** | Interactive charts | Visualizes cost data |
+| **[Docker](https://www.docker.com/)** | Containerization | Easy deployment |
+
+---
+
+## ❓ Troubleshooting
+
+### Quick Fixes
+
+| Problem | Solution |
+|---------|----------|
+| "Ollama not running" | Run `ollama serve` in a terminal |
+| "Model not found" | Run `ollama pull llama3.2` |
+| "Out of memory" | Try smaller model: `ollama pull phi3` |
+| "Slow responses" | Normal for local AI; try OpenAI for speed |
+| "Import errors" | Run `pip install crewai langchain-community` |
+
+For detailed troubleshooting, see [Beginner's Guide - Troubleshooting](docs/BEGINNERS_GUIDE.md#troubleshooting-for-beginners).
 
 ---
 
