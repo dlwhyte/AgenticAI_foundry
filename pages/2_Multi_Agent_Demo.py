@@ -322,12 +322,35 @@ with st.expander("ℹ️ How it works", expanded=False):
 
 # Topic input
 st.subheader("📝 Research Topic")
-topic = st.text_area(
-    "What would you like the team to research?",
-    placeholder="Example: The impact of artificial intelligence on healthcare diagnostics",
-    height=100,
-    label_visibility="collapsed"
-)
+
+col1, col2 = st.columns([3, 1])
+
+with col1:
+    topic = st.text_area(
+        "What would you like the team to research?",
+        value=st.session_state.get("topic", ""),
+        placeholder="Example: The impact of artificial intelligence on healthcare diagnostics",
+        height=100,
+        label_visibility="collapsed"
+    )
+
+with col2:
+    st.markdown("**Example Topics:**")
+    examples = [
+        "AI in healthcare",
+        "Remote work trends", 
+        "Sustainable energy",
+        "Quantum computing",
+        "AI agents in customer service"
+    ]
+    for ex in examples:
+        if st.button(ex, key=f"ex_{ex}", use_container_width=True):
+            st.session_state.topic = f"Research the current state of {ex.lower()}, including key developments, challenges, and future outlook."
+            st.rerun()
+
+# Use session state topic if set
+if "topic" in st.session_state and not topic:
+    topic = st.session_state.topic
 
 # Validation
 can_run = bool(topic)
@@ -521,7 +544,55 @@ if run_button and can_run:
         # Detailed telemetry
         if show_telemetry_details:
             with st.expander("🔬 Detailed Telemetry", expanded=False):
-                st.markdown("**Raw Telemetry Data**")
+                
+                # Visual charts section
+                st.markdown("### 📊 Visual Breakdown")
+                
+                # Prepare data for charts
+                agent_names = [a.agent_name for a in telemetry.agents]
+                durations = [a.duration_seconds for a in telemetry.agents]
+                input_tokens = [a.input_tokens for a in telemetry.agents]
+                output_tokens = [a.output_tokens for a in telemetry.agents]
+                total_tokens = [a.total_tokens for a in telemetry.agents]
+                
+                # Duration chart
+                st.markdown("**⏱️ Duration by Agent (seconds)**")
+                duration_data = {
+                    "Agent": agent_names,
+                    "Duration (s)": durations
+                }
+                st.bar_chart(duration_data, x="Agent", y="Duration (s)", color="#FF6B35", horizontal=False)
+                
+                # Token comparison chart
+                st.markdown("**🔢 Token Usage by Agent**")
+                token_data = {
+                    "Agent": agent_names + agent_names,
+                    "Tokens": input_tokens + output_tokens,
+                    "Type": ["Input"] * 3 + ["Output"] * 3
+                }
+                
+                # Create side-by-side columns for token breakdown
+                tok_cols = st.columns(3)
+                colors = ["#0066CC", "#28A745", "#9933CC"]
+                for i, agent in enumerate(telemetry.agents):
+                    with tok_cols[i]:
+                        st.markdown(f"**{agent.agent_name}**")
+                        st.metric("Input", f"{agent.input_tokens:,}")
+                        st.metric("Output", f"{agent.output_tokens:,}")
+                        st.metric("Total", f"{agent.total_tokens:,}")
+                
+                # Total summary bar
+                st.markdown("**📈 Total Token Distribution**")
+                total_data = {
+                    "Agent": agent_names,
+                    "Tokens": total_tokens
+                }
+                st.bar_chart(total_data, x="Agent", y="Tokens", color="#1E3A5F")
+                
+                st.divider()
+                
+                # Raw JSON data
+                st.markdown("### 📋 Raw Telemetry Data")
                 
                 # Format as JSON-like display
                 telem_data = {
@@ -554,7 +625,7 @@ if run_button and can_run:
                 
                 # Cost breakdown
                 if telemetry.provider == "openai":
-                    st.markdown("**Cost Breakdown**")
+                    st.markdown("### 💰 Cost Breakdown")
                     config = PROVIDER_CONFIGS["openai"]
                     input_cost = (telemetry.total_input_tokens / 1000) * config.cost_per_1k_input_tokens
                     output_cost = (telemetry.total_output_tokens / 1000) * config.cost_per_1k_output_tokens
