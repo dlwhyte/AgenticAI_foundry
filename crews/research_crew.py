@@ -76,10 +76,19 @@ except ImportError:
     OPENAI_AVAILABLE = False
 
 try:
-    from langchain_community.llms import Ollama
+    # Try newer langchain-ollama first (recommended)
+    from langchain_ollama import ChatOllama
     OLLAMA_AVAILABLE = True
+    OLLAMA_CLASS = "ChatOllama"
 except ImportError:
-    OLLAMA_AVAILABLE = False
+    try:
+        # Fall back to langchain-community
+        from langchain_community.llms import Ollama
+        OLLAMA_AVAILABLE = True
+        OLLAMA_CLASS = "Ollama"
+    except ImportError:
+        OLLAMA_AVAILABLE = False
+        OLLAMA_CLASS = None
 
 # Token counting
 try:
@@ -247,12 +256,18 @@ def get_llm(provider: str, api_key: Optional[str] = None, model: Optional[str] =
     
     if provider == "ollama":
         if not OLLAMA_AVAILABLE:
-            raise ImportError("langchain-community not installed. Run: pip install langchain-community")
+            raise ImportError("Ollama support not installed. Run: pip install langchain-ollama")
         
-        return Ollama(
-            model=model_name,
-            base_url=config.base_url
-        )
+        if OLLAMA_CLASS == "ChatOllama":
+            return ChatOllama(
+                model=model_name,
+                base_url=config.base_url
+            )
+        else:
+            return Ollama(
+                model=model_name,
+                base_url=config.base_url
+            )
     
     elif provider == "openai":
         if not OPENAI_AVAILABLE:
