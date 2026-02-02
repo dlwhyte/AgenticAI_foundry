@@ -2,10 +2,10 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Note: OLLAMA_HOST is auto-detected at runtime
-# - Tries localhost first (for local runs)
-# - Falls back to host.docker.internal (Docker Desktop on Mac/Windows)
-# - Can be overridden: docker run -e OLLAMA_HOST=http://your-host:11434 ...
+# Set Ollama host for Docker Desktop (Mac/Windows)
+# This tells the container to reach Ollama on the host machine
+# Linux users: override with -e OLLAMA_HOST=http://172.17.0.1:11434
+ENV OLLAMA_HOST=http://host.docker.internal:11434
 
 COPY requirements.txt .
 COPY requirements-crewai.txt .
@@ -17,3 +17,4 @@ COPY . .
 EXPOSE 8501
 
 CMD ["streamlit", "run", "Home.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]
+
