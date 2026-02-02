@@ -365,6 +365,12 @@ def run_research_crew(
     config = PROVIDER_CONFIGS.get(provider)
     model_name = model or config.model
     
+    # For OpenAI: set the real API key in environment so CrewAI can use it
+    _original_key = None
+    if provider == "openai" and api_key:
+        _original_key = os.environ.get("OPENAI_API_KEY")
+        os.environ["OPENAI_API_KEY"] = api_key
+    
     try:
         # Create LLM
         if callback:
@@ -419,6 +425,11 @@ def run_research_crew(
             model=model_name,
             task_outputs={}
         )
+    
+    finally:
+        # Restore original API key
+        if provider == "openai" and _original_key is not None:
+            os.environ["OPENAI_API_KEY"] = _original_key
 
 
 # =============================================================================
