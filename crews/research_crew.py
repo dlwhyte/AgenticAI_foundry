@@ -131,8 +131,11 @@ def get_llm(provider: str, api_key: Optional[str] = None, model: Optional[str] =
         if not OPENAI_AVAILABLE:
             raise ImportError("langchain-openai not installed. Run: pip install langchain-openai")
         
-        # Get API key from parameter, env, or raise error
-        key = api_key or os.getenv(config.api_key_env)
+        # Get API key from parameter or env (ignore placeholder)
+        env_key = os.getenv(config.api_key_env)
+        if env_key and env_key.startswith("placeholder-"):
+            env_key = None
+        key = api_key or env_key
         if not key:
             raise ValueError(f"OpenAI API key required. Set {config.api_key_env} or pass api_key parameter.")
         
@@ -501,7 +504,8 @@ Examples:
                     print(f"      └─ ⚠️  Ollama not running. Start with: ollama serve")
             
             if name == "openai" and name in available:
-                if os.getenv("OPENAI_API_KEY"):
+                env_key = os.getenv("OPENAI_API_KEY")
+                if env_key and not env_key.startswith("placeholder-"):
                     print(f"      └─ API key found in environment")
                 else:
                     print(f"      └─ ⚠️  No API key. Set OPENAI_API_KEY")
@@ -522,7 +526,9 @@ Examples:
         if not OPENAI_AVAILABLE:
             print("❌ OpenAI support not installed. Run: pip install langchain-openai")
             sys.exit(1)
-        if not args.api_key and not os.getenv("OPENAI_API_KEY"):
+        env_key = os.getenv("OPENAI_API_KEY")
+        has_valid_env_key = env_key and not env_key.startswith("placeholder-")
+        if not args.api_key and not has_valid_env_key:
             print("❌ OpenAI API key required. Set OPENAI_API_KEY or use --api-key")
             sys.exit(1)
     
