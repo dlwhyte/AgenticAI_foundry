@@ -577,14 +577,21 @@ def run_research_crew(
                 agent_telemetry.status = "complete"
                 agent_telemetry.output = "(No output captured)"
         
-        # Distribute timing across agents (estimate since CrewAI doesn't expose per-agent timing)
+        # Estimate timing per agent based on output tokens (proxy for work done)
+        # More tokens = more generation time (roughly proportional)
         total_time = crew_telemetry.total_duration_seconds
-        time_per_agent = total_time / 3
+        total_output = sum(a.output_tokens for a in crew_telemetry.agents) or 1  # avoid div by zero
         
+        cumulative_time = 0
         for i, agent_telemetry in enumerate(crew_telemetry.agents):
-            agent_telemetry.start_time = crew_telemetry.start_time + (i * time_per_agent)
-            agent_telemetry.end_time = agent_telemetry.start_time + time_per_agent
-            agent_telemetry.duration_seconds = time_per_agent
+            # Weight time by proportion of output tokens
+            token_ratio = agent_telemetry.output_tokens / total_output if total_output > 0 else 0.33
+            agent_time = total_time * token_ratio
+            
+            agent_telemetry.start_time = crew_telemetry.start_time + cumulative_time
+            agent_telemetry.duration_seconds = agent_time
+            agent_telemetry.end_time = agent_telemetry.start_time + agent_time
+            cumulative_time += agent_time
         
         # Update crew telemetry totals
         crew_telemetry.total_input_tokens = total_input_tokens
