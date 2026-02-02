@@ -21,6 +21,14 @@ from typing import Optional, Generator, Dict, Any
 from dataclasses import dataclass
 from enum import Enum
 
+# Prevent CrewAI from erroring on import when no API key is set
+# The actual key will be provided at runtime when using OpenAI
+if not os.environ.get("OPENAI_API_KEY"):
+    os.environ["OPENAI_API_KEY"] = "placeholder-key-will-be-set-at-runtime"
+    _PLACEHOLDER_KEY_SET = True
+else:
+    _PLACEHOLDER_KEY_SET = False
+
 # CrewAI imports
 try:
     from crewai import Agent, Task, Crew, Process
