@@ -1,6 +1,11 @@
-# Core Streamlit app - required for all demos
-streamlit==1.42.0
-plotly>=5.18.0
-pandas>=2.1.0
-numpy>=1.26.0
-tiktoken>=0.5.2
+# Core Streamlit app
+streamlit==1.31.0
+plotly==5.18.0
+pandas==2.2.0
+numpy==1.26.3
+tiktoken==0.5.2
+
+# CrewAI Multi-Agent Demo (Module 2)
+crewai>=0.28.0
+langchain-community>=0.0.20
+langchain-openai>=0.0.5

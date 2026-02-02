@@ -232,6 +232,25 @@ Single AI models, even powerful ones, struggle with complex tasks because:
 - Remember context within a session
 - Work toward a shared goal
 
+### How CrewAI Specializes Agents
+
+CrewAI agents are **not** raw API calls or simple prompt templates. Instead, CrewAI uses an abstraction layer where you define agents with **three key attributes**:
+
+| Attribute | Purpose | Example |
+|-----------|---------|---------|
+| **Role** | The agent's job title | "Research Analyst" |
+| **Goal** | What the agent is trying to achieve | "Gather comprehensive information about {topic}" |
+| **Backstory** | Context that shapes behavior and expertise | "You are an experienced researcher with expertise in finding accurate, relevant information..." |
+
+**What happens under the hood:**
+
+1. You define `role`, `goal`, and `backstory` for each agent
+2. CrewAI combines these with the task description
+3. CrewAI constructs a system prompt + user prompt internally
+4. The prompt is sent to the LLM (OpenAI, Ollama, etc.) via API call
+
+This abstraction lets you define agent "personalities" without writing raw prompts. Think of it like hiring team members — you describe *who they are*, and CrewAI handles *how to instruct them*.
+
 ### How CrewAI Works
 
 ```python
@@ -888,3 +907,130 @@ You've learned:
   <i>Module 2: Multi-Agent Systems</i><br><br>
   Questions? Check the <a href="CREWAI_SETUP.md">Quick Setup Guide</a> or ask in class!
 </p>
+
+---
+
+## How CrewAI Specializes Agents
+
+> 📊 **See Also**: Slides "How CrewAI Specializes Agents" and "What Happens Under the Hood" in the presentation deck.
+
+A common question: Are CrewAI agents custom prompt templates or raw API calls?
+
+**Answer**: Neither — it's an abstraction layer that handles both.
+
+### The Three Key Attributes
+
+When you define an agent in CrewAI, you specify three things:
+
+| Attribute | Purpose | Example |
+|-----------|---------|---------|
+| **Role** | The agent's job title | "Research Analyst" |
+| **Goal** | What the agent is trying to achieve | "Gather comprehensive information about {topic}" |
+| **Backstory** | Context that shapes behavior and expertise | "You are an experienced researcher with expertise in finding accurate, relevant information..." |
+
+### Code Example (from `research_crew.py`)
+
+```python
+Agent(
+    role="Research Analyst",
+    goal="Gather comprehensive information about {topic}",
+    backstory="You are an experienced researcher with expertise in finding accurate, relevant information...",
+    llm=llm,
+    verbose=verbose
+)
+```
+
+### What Happens Under the Hood
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐     ┌──────────┐
+│ Your Definition │ >>> │     CrewAI      │ >>> │    LLM API      │ >>> │  Output  │
+│ role, goal,     │     │ Builds prompt   │     │ OpenAI / Ollama │     │  Agent   │
+│ backstory       │     │ from attributes │     │                 │     │  result  │
+└─────────────────┘     └─────────────────┘     └─────────────────┘     └──────────┘
+```
+
+1. **You define** the agent with role, goal, and backstory
+2. **CrewAI combines** these with the task description to construct a system prompt
+3. **The prompt is sent** to the LLM via API (OpenAI, Ollama, etc.)
+4. **The response** becomes the agent's output
+
+### Key Insight
+
+CrewAI is an **abstraction layer** — you define "personalities" without writing raw prompts. This lets you:
+
+- Focus on **what** agents should do, not **how** to prompt them
+- Easily swap LLM providers (OpenAI ↔ Ollama) without changing agent definitions
+- Create reusable agent "templates" for different use cases
+
+### Why This Matters for the Demo
+
+In the Multi-Agent Demo, you'll see three agents (Researcher, Writer, Editor) with different roles, goals, and backstories. Each produces distinct output because CrewAI constructs different prompts based on their attributes — even though they're all using the same underlying LLM.
+
+---
+
+## The `agents/` Folder — LangChain Single-Agent Logic
+
+While `crews/` contains CrewAI multi-agent logic, the `agents/` folder contains **LangChain single-agent** implementations.
+
+### What's the Difference?
+
+| Folder | Framework | Pattern | Example |
+|--------|-----------|---------|---------|
+| `crews/` | CrewAI | Multi-agent collaboration | Researcher → Writer → Editor |
+| `agents/` | LangChain | Single agent + tools | Agent + Web Search |
+
+### Inside `agents/crypto_agent.py`
+
+This file implements a LangChain agent that:
+1. Takes a question about cryptocurrency prices
+2. Uses the **DuckDuckGo search tool** to get real-time data
+3. Returns a formatted answer
+
+**Key Components:**
+
+```python
+# The LLM (brain)
+llm = ChatOpenAI(model="gpt-4o-mini")  # or ChatOllama
+
+# The tool (capability)
+search_tool = DuckDuckGoSearchRun()
+
+# The agent (combines brain + tools)
+agent = create_react_agent(llm, [search_tool], prompt)
+
+# Run it
+result = agent_executor.invoke({"input": "What's the Bitcoin price?"})
+```
+
+### The ReAct Pattern
+
+LangChain agents use the **ReAct** (Reasoning + Acting) pattern:
+
+```
+Question: What's the current price of Bitcoin?
+    │
+    ▼
+Thought: I need to search for current Bitcoin price
+    │
+    ▼
+Action: web_search("Bitcoin current price")
+    │
+    ▼
+Observation: Bitcoin is trading at $97,245...
+    │
+    ▼
+Thought: I now have the information
+    │
+    ▼
+Final Answer: Bitcoin is currently trading at $97,245.
+```
+
+### When to Use Which?
+
+| Scenario | Use This |
+|----------|----------|
+| Multi-step workflow with handoffs | **CrewAI** (crews/) |
+| Need real-time data from tools | **LangChain** (agents/) |
+| Research → Write → Edit pipeline | **CrewAI** |
+| Quick question with search | **LangChain** |

@@ -14,7 +14,8 @@
 | Demo | Module | Description |
 |------|--------|-------------|
 | **💰 LLM Cost Explorer** | Module 1 | Calculate and compare LLM API costs across providers |
-| **🤖 Multi-Agent Demo** | Module 2 | Watch three AI agents collaborate in real-time |
+| **🤖 Multi-Agent Demo** | Module 2 | Watch three AI agents collaborate (CrewAI) |
+| **🔗 LangChain Agent Demo** | Module 2 | Single agent with web search tool (LangChain) |
 
 ---
 
@@ -31,6 +32,12 @@
 - **Dual Provider Support** — Ollama (free, local) or OpenAI (paid, cloud)
 - **Live Agent Activity** — Watch agents hand off work in real-time
 - **CLI Support** — Run from command line or Streamlit
+
+### 🔗 LangChain Agent Demo (Module 2)
+- **Single Agent + Tools** — Contrast with CrewAI's multi-agent approach
+- **Real-Time Web Search** — Get current crypto prices via DuckDuckGo
+- **ReAct Pattern** — Watch the agent think, act, and observe
+- **Same Provider Options** — Works with Ollama or OpenAI
 
 ---
 
@@ -132,17 +139,21 @@ AgenticAI_foundry/
 ├── Home.py                        # Landing page
 ├── pages/
 │   ├── 1_LLM_Cost_Calculator.py   # Cost calculator (Module 1)
-│   └── 2_Multi_Agent_Demo.py      # Multi-agent demo (Module 2)
-├── crews/                         # 🧠 Multi-agent logic
+│   ├── 2_Multi_Agent_Demo.py      # CrewAI multi-agent demo (Module 2)
+│   └── 3_LangChain_Agent_Demo.py  # LangChain tool agent (Module 2)
+├── crews/                         # 🧠 CrewAI multi-agent logic
 │   ├── __init__.py
 │   └── research_crew.py           # Agent definitions & orchestration
+├── agents/                        # 🔗 LangChain single-agent logic
+│   ├── __init__.py
+│   └── crypto_agent.py            # Web search agent for crypto prices
 ├── docs/
 │   ├── BEGINNERS_GUIDE.md         # Comprehensive beginner tutorial
 │   ├── CREWAI_SETUP.md            # Quick setup reference
 │   └── DOCKER_GUIDE.md            # Docker setup guide
 ├── Dockerfile
 ├── requirements.txt               # Base Streamlit dependencies
-├── requirements-crewai.txt        # CrewAI + LLM dependencies
+├── requirements-crewai.txt        # CrewAI + LangChain dependencies
 └── README.md
 ```
 
@@ -172,10 +183,42 @@ python -m crews.research_crew --check
 
 Use this tool to understand token economics and model pricing.
 
-### Module 2: Multi-Agent Demo
+### Module 2: Multi-Agent Demo (CrewAI)
 > Watch three agents collaborate: **Researcher → Writer → Editor**
 
 See multi-agent orchestration in action with CrewAI.
+
+### Module 2: LangChain Agent Demo
+> Single agent with tools: **Think → Search → Answer**
+
+See tool-augmented reasoning with real-time web search.
+
+#### CrewAI vs LangChain — Two Approaches
+
+| Aspect | CrewAI (Multi-Agent) | LangChain (Tool Agent) |
+|--------|---------------------|------------------------|
+| **Metaphor** | Team of employees | Single agent with tools |
+| **Pattern** | Sequential handoff | ReAct (Reason + Act) |
+| **Example** | Research → Write → Edit | Question → Search → Answer |
+| **Best For** | Complex workflows | Real-time data retrieval |
+
+#### How CrewAI Specializes Agents
+
+CrewAI agents are defined with three key attributes that shape their behavior:
+
+```python
+Agent(
+    role="Research Analyst",           # Job title
+    goal="Gather info about {topic}",  # What to achieve
+    backstory="You are an experienced  # Shapes behavior
+              researcher with expertise..."
+    llm=llm
+)
+```
+
+CrewAI combines these attributes with task instructions to construct prompts sent to the LLM. This abstraction lets you define agent "personalities" without writing raw prompts.
+
+See `crews/research_crew.py` for the full implementation.
 
 ---
 
