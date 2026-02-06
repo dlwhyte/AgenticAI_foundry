@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GenAI Global — International Generative AI Community</title>
+  <meta name="description" content="Join GenAI Global, an international community of AI practitioners, researchers, and business leaders exploring the frontier of generative AI.">
+  <style>
+    /* ── Reset & Base ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --clr-bg:        #0b0f19;
+      --clr-surface:   #131824;
+      --clr-border:    #1e2636;
+      --clr-text:      #cdd6e5;
+      --clr-heading:   #f0f4fa;
+      --clr-accent:    #6c5ce7;
+      --clr-accent-lt: #a29bfe;
+      --clr-teal:      #00cec9;
+      --clr-pink:      #fd79a8;
+      --radius:        12px;
+      --shadow:        0 4px 24px rgba(0,0,0,.35);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 { color: var(--clr-heading); line-height: 1.25; }
+
+    a { color: var(--clr-accent-lt); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    img { max-width: 100%; display: block; }
+
+    /* ── Utility ───────────────────────────────────────── */
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(108, 92, 231, .4);
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--clr-accent), var(--clr-accent-lt));
+      color: #fff;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--clr-accent-lt);
+      color: var(--clr-accent-lt);
+    }
+    .btn-outline:hover {
+      background: var(--clr-accent);
+      color: #fff;
+      border-color: var(--clr-accent);
+    }
+
+    .section-label {
+      text-transform: uppercase;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--clr-teal);
+      margin-bottom: 12px;
+    }
+
+    .section-heading {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      max-width: 640px;
+      margin: 0 auto 48px;
+      font-size: 1.05rem;
+      color: var(--clr-text);
+    }
+
+    /* ── Nav ───────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(11, 15, 25, .85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--clr-border);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--clr-heading);
+    }
+    .logo span { color: var(--clr-accent-lt); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--clr-text); font-size: .92rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--clr-accent-lt); text-decoration: none; }
+    .nav-cta { padding: 9px 22px; font-size: .88rem; }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--clr-heading);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ── Hero ──────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(108,92,231,.22), transparent),
+        radial-gradient(ellipse 50% 60% at 80% 80%, rgba(0,206,201,.12), transparent);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; max-width: 760px; }
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--clr-accent-lt), var(--clr-teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      margin-bottom: 36px;
+      color: var(--clr-text);
+    }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Stats Bar ─────────────────────────────────────── */
+    .stats {
+      background: var(--clr-surface);
+      border-top: 1px solid var(--clr-border);
+      border-bottom: 1px solid var(--clr-border);
+      padding: 40px 24px;
+    }
+    .stats .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 32px;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--clr-accent-lt);
+    }
+    .stat-label { font-size: .92rem; margin-top: 4px; }
+
+    /* ── About ─────────────────────────────────────────── */
+    .about { padding: 100px 24px; text-align: center; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      margin-top: 8px;
+    }
+    .about-card {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      text-align: left;
+      transition: transform .25s, border-color .25s;
+    }
+    .about-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--clr-accent);
+    }
+    .about-icon {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+      color: #fff;
+    }
+    .about-card h3 { font-size: 1.15rem; margin-bottom: 10px; }
+
+    /* ── Topics ─────────────────────────────────────────── */
+    .topics { padding: 100px 24px; text-align: center; }
+    .topics-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .topic-tag {
+      padding: 10px 22px;
+      border: 1px solid var(--clr-border);
+      border-radius: 50px;
+      background: var(--clr-surface);
+      font-size: .9rem;
+      font-weight: 500;
+      transition: border-color .2s, color .2s;
+    }
+    .topic-tag:hover {
+      border-color: var(--clr-accent-lt);
+      color: var(--clr-accent-lt);
+    }
+
+    /* ── Events ─────────────────────────────────────────── */
+    .events { padding: 100px 24px; text-align: center; background: var(--clr-surface); }
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      margin-top: 8px;
+    }
+    .event-card {
+      background: var(--clr-bg);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-align: left;
+      transition: transform .25s;
+    }
+    .event-card:hover { transform: translateY(-4px); }
+    .event-banner {
+      height: 6px;
+    }
+    .event-body { padding: 28px 24px; }
+    .event-date {
+      font-size: .82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .event-body h3 { font-size: 1.1rem; margin-bottom: 8px; }
+    .event-body p { font-size: .92rem; }
+
+    /* ── Testimonials ──────────────────────────────────── */
+    .testimonials { padding: 100px 24px; text-align: center; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      margin-top: 8px;
+    }
+    .testimonial-card {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      text-align: left;
+    }
+    .testimonial-card blockquote {
+      font-style: italic;
+      margin-bottom: 18px;
+      line-height: 1.7;
+    }
+    .testimonial-author { font-weight: 600; color: var(--clr-heading); }
+    .testimonial-role { font-size: .85rem; color: var(--clr-text); }
+
+    /* ── CTA ───────────────────────────────────────────── */
+    .cta {
+      padding: 100px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 100%, rgba(108,92,231,.18), transparent);
+      pointer-events: none;
+    }
+    .cta .container { position: relative; }
+    .cta h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 16px; }
+    .cta p { max-width: 560px; margin: 0 auto 36px; font-size: 1.1rem; }
+
+    /* ── Join Form ─────────────────────────────────────── */
+    .join-form {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .join-form input[type="email"] {
+      flex: 1 1 260px;
+      padding: 14px 20px;
+      border-radius: 50px;
+      border: 1px solid var(--clr-border);
+      background: var(--clr-surface);
+      color: var(--clr-heading);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .join-form input[type="email"]:focus { border-color: var(--clr-accent-lt); }
+    .join-form input[type="email"]::placeholder { color: #5a6478; }
+
+    /* ── Footer ────────────────────────────────────────── */
+    footer {
+      background: var(--clr-surface);
+      border-top: 1px solid var(--clr-border);
+      padding: 48px 24px 32px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand p { font-size: .92rem; margin-top: 10px; max-width: 280px; }
+    .footer-col h4 {
+      color: var(--clr-heading);
+      font-size: .85rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: var(--clr-text); font-size: .9rem; }
+    .footer-col a:hover { color: var(--clr-accent-lt); }
+    .footer-bottom {
+      text-align: center;
+      font-size: .82rem;
+      color: #4a5568;
+      border-top: 1px solid var(--clr-border);
+      padding-top: 24px;
+    }
+
+    /* ── Mobile ────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .mobile-toggle { display: block; }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 68px; left: 0; right: 0;
+        background: var(--clr-bg);
+        border-bottom: 1px solid var(--clr-border);
+        padding: 20px 24px;
+        gap: 16px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ──────────────────────────────────── -->
+  <nav>
+    <div class="container">
+      <div class="logo">Gen<span>AI</span> Global</div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#topics">Topics</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#voices">Community</a></li>
+      </ul>
+      <a href="#join" class="btn btn-primary nav-cta">Join Us</a>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- ── Hero ────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Where the World Explores <span class="gradient-text">Generative AI</span></h1>
+      <p>Connect with thousands of AI practitioners, researchers, and business leaders across the globe. Share knowledge, shape the future, and accelerate your generative AI journey.</p>
+      <div class="hero-buttons">
+        <a href="#join" class="btn btn-primary">Join the Community</a>
+        <a href="#about" class="btn btn-outline">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats Bar ───────────────────────────────────── -->
+  <section class="stats">
+    <div class="container">
+      <div>
+        <div class="stat-num">12,000+</div>
+        <div class="stat-label">Members Worldwide</div>
+      </div>
+      <div>
+        <div class="stat-num">85+</div>
+        <div class="stat-label">Countries Represented</div>
+      </div>
+      <div>
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Events Per Year</div>
+      </div>
+      <div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Industry Partners</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About / Why Join ────────────────────────────── -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-label">Why Join</div>
+      <h2 class="section-heading">Built for Every AI Journey</h2>
+      <p class="section-sub">Whether you're a researcher pushing the frontier or a business leader applying AI at scale, GenAI Global gives you the network, knowledge, and tools to thrive.</p>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon" style="background:linear-gradient(135deg,var(--clr-accent),var(--clr-accent-lt))">&#127891;</div>
+          <h3>Expert-Led Workshops</h3>
+          <p>Hands-on sessions covering LLMs, diffusion models, RAG architectures, AI safety, and more &mdash; taught by practitioners who build production systems.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon" style="background:linear-gradient(135deg,var(--clr-teal),#00b894)">&#127760;</div>
+          <h3>Global Network</h3>
+          <p>Regional chapters in over 40 cities connect you with local peers for meetups, co-working, and collaboration opportunities across time zones.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon" style="background:linear-gradient(135deg,var(--clr-pink),#e17055)">&#128218;</div>
+          <h3>Research Digest</h3>
+          <p>A curated weekly briefing of the most impactful papers, tools, and industry developments so you stay current without the noise.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon" style="background:linear-gradient(135deg,#fdcb6e,#e17055)">&#129309;</div>
+          <h3>Mentorship Program</h3>
+          <p>Get paired with experienced AI professionals for 1-on-1 guidance on career transitions, project strategy, and technical deep-dives.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon" style="background:linear-gradient(135deg,#55efc4,#00b894)">&#128640;</div>
+          <h3>Project Showcases</h3>
+          <p>Present your work to an engaged audience, receive constructive feedback, and discover collaborators for your next big idea.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon" style="background:linear-gradient(135deg,#74b9ff,#0984e3)">&#128274;</div>
+          <h3>Responsible AI Forum</h3>
+          <p>Engage in structured discussions on ethics, governance, bias mitigation, and policy &mdash; ensuring AI benefits everyone.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Topics ──────────────────────────────────────── -->
+  <section class="topics" id="topics">
+    <div class="container">
+      <div class="section-label">What We Explore</div>
+      <h2 class="section-heading">Topics Shaping the Future</h2>
+      <p class="section-sub">From foundational research to real-world deployment, our community covers the full spectrum of generative AI.</p>
+
+      <div class="topics-grid">
+        <span class="topic-tag">Large Language Models</span>
+        <span class="topic-tag">Diffusion &amp; Image Gen</span>
+        <span class="topic-tag">Multimodal AI</span>
+        <span class="topic-tag">AI Agents</span>
+        <span class="topic-tag">RAG &amp; Knowledge Systems</span>
+        <span class="topic-tag">Fine-Tuning &amp; RLHF</span>
+        <span class="topic-tag">AI Safety &amp; Alignment</span>
+        <span class="topic-tag">Prompt Engineering</span>
+        <span class="topic-tag">Enterprise Deployment</span>
+        <span class="topic-tag">Open-Source Models</span>
+        <span class="topic-tag">Audio &amp; Music Gen</span>
+        <span class="topic-tag">Video Generation</span>
+        <span class="topic-tag">Code Generation</span>
+        <span class="topic-tag">AI Governance &amp; Policy</span>
+        <span class="topic-tag">Synthetic Data</span>
+        <span class="topic-tag">Edge AI &amp; Efficiency</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Events ──────────────────────────────────────── -->
+  <section class="events" id="events">
+    <div class="container">
+      <div class="section-label">Upcoming</div>
+      <h2 class="section-heading">Events &amp; Meetups</h2>
+      <p class="section-sub">Join live and virtual gatherings where ideas become insights.</p>
+
+      <div class="events-grid">
+        <div class="event-card">
+          <div class="event-banner" style="background:linear-gradient(90deg,var(--clr-accent),var(--clr-teal))"></div>
+          <div class="event-body">
+            <div class="event-date" style="color:var(--clr-teal)">Mar 14, 2026 &middot; Virtual</div>
+            <h3>LLM Agents in Production</h3>
+            <p>Patterns, pitfalls, and best practices for deploying autonomous AI agents at enterprise scale.</p>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-banner" style="background:linear-gradient(90deg,var(--clr-pink),var(--clr-accent-lt))"></div>
+          <div class="event-body">
+            <div class="event-date" style="color:var(--clr-pink)">Apr 5, 2026 &middot; London, UK</div>
+            <h3>Responsible Generative AI Summit</h3>
+            <p>A full-day event tackling bias, safety evaluations, and governance frameworks with leading researchers.</p>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-banner" style="background:linear-gradient(90deg,#fdcb6e,#e17055)"></div>
+          <div class="event-body">
+            <div class="event-date" style="color:#fdcb6e">Apr 22, 2026 &middot; San Francisco, CA</div>
+            <h3>Multimodal AI Hack Night</h3>
+            <p>Build with vision-language models, audio generators, and video synthesis tools in one high-energy evening.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Testimonials ────────────────────────────────── -->
+  <section class="testimonials" id="voices">
+    <div class="container">
+      <div class="section-label">Community Voices</div>
+      <h2 class="section-heading">Hear From Our Members</h2>
+      <p class="section-sub">People from every corner of the AI ecosystem call GenAI Global home.</p>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <blockquote>"GenAI Global gave me access to a network I couldn't have built on my own. I went from experimenting alone to co-authoring a paper within six months."</blockquote>
+          <div class="testimonial-author">Priya Sharma</div>
+          <div class="testimonial-role">ML Researcher, Bangalore</div>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"The workshops cut through the hype. I walked away with concrete architectures we deployed the following sprint. That kind of practical depth is rare."</blockquote>
+          <div class="testimonial-author">Marcus Engel</div>
+          <div class="testimonial-role">VP of Engineering, Berlin</div>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>"As a policy researcher, I valued the Responsible AI Forum the most. The cross-disciplinary dialogue here is exactly what the field needs."</blockquote>
+          <div class="testimonial-author">Amara Osei</div>
+          <div class="testimonial-role">AI Policy Analyst, Accra</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA / Join ──────────────────────────────────── -->
+  <section class="cta" id="join">
+    <div class="container">
+      <div class="section-label">Get Started</div>
+      <h2>Join GenAI Global Today</h2>
+      <p>Membership is free. Enter your email and become part of the world's most active generative AI community.</p>
+      <form class="join-form" onsubmit="handleSubmit(event)">
+        <input type="email" placeholder="you@example.com" required aria-label="Email address">
+        <button type="submit" class="btn btn-primary">Join Free</button>
+      </form>
+      <p id="formMsg" style="margin-top:16px; font-size:.92rem; color:var(--clr-teal); display:none;"></p>
+    </div>
+  </section>
+
+  <!-- ── Footer ──────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">Gen<span>AI</span> Global</div>
+          <p>An international community exploring the frontier of generative AI &mdash; together.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#voices">Members</a></li>
+            <li><a href="#join">Join</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#topics">Topics</a></li>
+            <li><a href="#about">Workshops</a></li>
+            <li><a href="#about">Mentorship</a></li>
+            <li><a href="#about">Research Digest</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#join">Newsletter</a></li>
+            <li><a href="#join">Discord</a></li>
+            <li><a href="#join">LinkedIn</a></li>
+            <li><a href="#join">Twitter / X</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 GenAI Global. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Script ──────────────────────────────────────── -->
+  <script>
+    // Mobile nav toggle
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Close mobile nav on link click
+    document.querySelectorAll('#navLinks a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+
+    // Join form handler
+    function handleSubmit(e) {
+      e.preventDefault();
+      const msg = document.getElementById('formMsg');
+      msg.textContent = 'Welcome aboard! Check your inbox for next steps.';
+      msg.style.display = 'block';
+      e.target.reset();
+    }
+  </script>
+
+</body>
+</html>
