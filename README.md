@@ -1,43 +1,24 @@
-# Agentic AI Foundry 🤖
+# AgenticAI Foundry 🤖
 
 [![Streamlit App](https://img.shields.io/badge/Streamlit-App-red?logo=streamlit)](https://streamlit.io)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)](https://www.docker.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**MIT Professional Education: Agentic AI**  
-*Interactive demos for understanding AI economics and multi-agent systems*
+**MIT Professional Education: Applied Generative AI for Digital Transformation**  
+*Interactive demos for understanding AI economics, multi-agent systems, and agent integration*
 
 ---
 
 ## 🎯 What's Included
 
-| Demo | Module | Description |
-|------|--------|-------------|
-| **💰 LLM Cost Explorer** | Module 1 | Calculate and compare LLM API costs across providers |
-| **🤖 Multi-Agent Demo** | Module 2 | Watch three AI agents collaborate (CrewAI) |
-| **🔗 LangChain Agent Demo** | Module 2 | Single agent with web search tool (LangChain) |
+| Demo | Module | Description | API Key? |
+|------|--------|-------------|----------|
+| **💰 LLM Cost Explorer** | Module 1 | Calculate and compare LLM API costs across providers | No |
+| **🤖 Multi-Agent Demo** | Module 2 | Watch three AI agents collaborate (CrewAI) | Optional |
+| **🔗 LangChain Agent Demo** | Module 2 | Single agent with web search tool (LangChain) | Optional |
+| **🔌 MCP Explorer** | Module 3 | Understand the Model Context Protocol — how AI agents connect to tools | No |
 
----
-
-## ✨ Features
-
-### 💰 LLM Cost Explorer (Module 1)
-- **Real-time Token Counter** — Uses OpenAI's tiktoken
-- **Multi-Model Comparison** — 10+ models from OpenAI, Anthropic, Google
-- **Scale Analysis** — See costs from 1K to 1M API calls
-- **Export Results** — CSV, JSON for assignments
-
-### 🤖 Multi-Agent Demo (Module 2)
-- **Three Collaborating Agents** — Researcher → Writer → Editor
-- **Dual Provider Support** — Ollama (free, local) or OpenAI (paid, cloud)
-- **Live Agent Activity** — Watch agents hand off work in real-time
-- **CLI Support** — Run from command line or Streamlit
-
-### 🔗 LangChain Agent Demo (Module 2)
-- **Single Agent + Tools** — Contrast with CrewAI's multi-agent approach
-- **Real-Time Web Search** — Get current crypto prices via DuckDuckGo
-- **ReAct Pattern** — Watch the agent think, act, and observe
-- **Same Provider Options** — Works with Ollama or OpenAI
+> More demos will be added as the course progresses.
 
 ---
 
@@ -71,13 +52,63 @@ streamlit run Home.py
 
 ---
 
+## ✨ Demo Details
+
+### 💰 LLM Cost Explorer (Module 1)
+
+> **The same AI transaction can cost between $1 and $230** — a 200x variance!
+
+- **Real-time Token Counter** — Uses OpenAI's tiktoken
+- **Multi-Model Comparison** — 10+ models from OpenAI, Anthropic, Google
+- **Scale Analysis** — See costs from 1K to 1M API calls
+- **Export Results** — CSV, JSON for assignments
+
+**Assignment:** Use this to analyze model pricing at scale for your write-up.
+
+### 🤖 Multi-Agent Demo (Module 2)
+
+> Watch three agents collaborate: **Researcher → Writer → Editor**
+
+- **Three Collaborating Agents** — Sequential task handoff via CrewAI
+- **Dual Provider Support** — Ollama (free, local) or OpenAI (paid, cloud)
+- **Live Agent Activity** — Watch agents hand off work in real-time
+- **CLI Support** — Run from command line or Streamlit
+
+**Assignment:** Observe agent specialization, telemetry, and collaboration patterns.
+
+### 🔗 LangChain Agent Demo (Module 2)
+
+> Single agent with tools: **Think → Search → Answer**
+
+- **Single Agent + Tools** — Contrast with CrewAI's multi-agent approach
+- **Real-Time Web Search** — Get current crypto prices via DuckDuckGo
+- **ReAct Pattern** — Watch the agent think, act, and observe
+- **Same Provider Options** — Works with Ollama or OpenAI
+
+**Assignment:** Compare single-agent vs multi-agent patterns.
+
+### 🔌 MCP Explorer (Module 3)
+
+> MCP is **USB-C for AI** — one standard protocol connecting agents to any tool.
+
+- **Step-by-Step Scenarios** — Walk through real MCP interactions (calendar, Spotify, Salesforce, DevOps)
+- **Protocol Messages** — See the actual JSON-RPC requests and responses
+- **MCP vs Alternatives** — Side-by-side comparison with Zapier and custom APIs
+- **Integration Framework** — Understand when to use which approach
+
+**Assignment:** Supports Q3 (integration), Q4 (safety), and the overall proposal design.
+
+No API key required — this is an educational simulation tool.
+
+---
+
 ## 🤖 Multi-Agent Demo Setup
 
-The Multi-Agent Demo lets you watch AI agents collaborate. You have two options for the AI "brain":
+The Multi-Agent and LangChain demos need an AI "brain." You have two options:
 
 ### What is Ollama?
 
-**Ollama** lets you run powerful AI models **locally on your own computer** — for free, with no data leaving your machine. It's like having ChatGPT on your laptop, but you own it.
+**Ollama** lets you run powerful AI models **locally on your own computer** — for free, with no data leaving your machine.
 
 | Feature | Ollama (Local) | OpenAI (Cloud) |
 |---------|----------------|----------------|
@@ -122,11 +153,12 @@ pip install -r requirements-crewai.txt
 
 ## 📚 Documentation
 
-| Guide | For Who | What It Covers |
-|-------|---------|----------------|
+| Guide | Best For | What It Covers |
+|-------|----------|----------------|
 | **[Beginner's Guide](docs/BEGINNERS_GUIDE.md)** | Absolute beginners | Full explanations of every technology, step-by-step setup, glossary |
 | **[CrewAI Setup](docs/CREWAI_SETUP.md)** | Quick reference | Commands, troubleshooting, CLI usage |
 | **[Docker Guide](docs/DOCKER_GUIDE.md)** | Container users | Docker-specific setup |
+| **[MCP Guide](docs/MCP_GUIDE.md)** | Module 3 | Understanding the Model Context Protocol |
 
 **New to AI agents?** Start with the [Beginner's Guide](docs/BEGINNERS_GUIDE.md) — it explains everything from scratch.
 
@@ -136,11 +168,12 @@ pip install -r requirements-crewai.txt
 
 ```
 AgenticAI_foundry/
-├── Home.py                        # Landing page
+├── Home.py                        # Landing page — course hub
 ├── pages/
 │   ├── 1_LLM_Cost_Calculator.py   # Cost calculator (Module 1)
 │   ├── 2_Multi_Agent_Demo.py      # CrewAI multi-agent demo (Module 2)
-│   └── 3_LangChain_Agent_Demo.py  # LangChain tool agent (Module 2)
+│   ├── 3_LangChain_Agent_Demo.py  # LangChain tool agent (Module 2)
+│   └── 4_MCP_Explorer.py          # MCP protocol explorer (Module 3)
 ├── crews/                         # 🧠 CrewAI multi-agent logic
 │   ├── __init__.py
 │   └── research_crew.py           # Agent definitions & orchestration
@@ -150,12 +183,64 @@ AgenticAI_foundry/
 ├── docs/
 │   ├── BEGINNERS_GUIDE.md         # Comprehensive beginner tutorial
 │   ├── CREWAI_SETUP.md            # Quick setup reference
-│   └── DOCKER_GUIDE.md            # Docker setup guide
+│   ├── DOCKER_GUIDE.md            # Docker setup guide
+│   └── MCP_GUIDE.md               # MCP explainer for Module 3
 ├── Dockerfile
 ├── requirements.txt               # Base Streamlit dependencies
 ├── requirements-crewai.txt        # CrewAI + LangChain dependencies
 └── README.md
 ```
+
+---
+
+## 📊 Module Connections
+
+### Module 1: LLM Cost Explorer
+> **The same AI transaction can cost between $1 and $230** — a 200x variance!
+
+Use this tool to understand token economics and model pricing before scaling AI in your org.
+
+### Module 2: Multi-Agent Systems
+> Watch agents collaborate: **Researcher → Writer → Editor**
+
+See multi-agent orchestration (CrewAI) and single-agent reasoning (LangChain) side by side.
+
+#### CrewAI vs LangChain — Two Approaches
+
+| Aspect | CrewAI (Multi-Agent) | LangChain (Tool Agent) |
+|--------|---------------------|------------------------|
+| **Metaphor** | Team of employees | Single agent with tools |
+| **Pattern** | Sequential handoff | ReAct (Reason + Act) |
+| **Example** | Research → Write → Edit | Question → Search → Answer |
+| **Best For** | Complex workflows | Real-time data retrieval |
+
+#### How CrewAI Specializes Agents
+
+```python
+Agent(
+    role="Research Analyst",           # Job title
+    goal="Gather info about {topic}",  # What to achieve
+    backstory="You are an experienced  # Shapes behavior
+              researcher with expertise..."
+    llm=llm
+)
+```
+
+CrewAI combines these attributes with task instructions to construct prompts sent to the LLM. See `crews/research_crew.py` for the full implementation.
+
+### Module 3: MCP & Agent Integration
+> MCP is **USB-C for AI** — one standard protocol connecting agents to any tool.
+
+The MCP Explorer walks you through how agents connect to external tools (calendars, CRMs, monitoring systems) using a standardized protocol, and compares this approach to alternatives like Zapier and custom APIs.
+
+#### MCP vs Other Approaches
+
+| Aspect | Zapier / n8n | Custom APIs | MCP |
+|--------|-------------|-------------|-----|
+| **Complexity** | Low (no-code) | High (custom dev) | Medium (standard) |
+| **AI Awareness** | None — trigger/action | Manual integration | Native AI support |
+| **Context / Memory** | No | Build it yourself | Built-in |
+| **Best For** | Simple automations | Unique business logic | AI agent ecosystems |
 
 ---
 
@@ -173,52 +258,6 @@ python -m crews.research_crew --provider openai --task "Research AI in healthcar
 # Check your setup
 python -m crews.research_crew --check
 ```
-
----
-
-## 📊 Module Connections
-
-### Module 1: LLM Cost Explorer
-> **The same AI transaction can cost between $1 and $230** — a 200x variance!
-
-Use this tool to understand token economics and model pricing.
-
-### Module 2: Multi-Agent Demo (CrewAI)
-> Watch three agents collaborate: **Researcher → Writer → Editor**
-
-See multi-agent orchestration in action with CrewAI.
-
-### Module 2: LangChain Agent Demo
-> Single agent with tools: **Think → Search → Answer**
-
-See tool-augmented reasoning with real-time web search.
-
-#### CrewAI vs LangChain — Two Approaches
-
-| Aspect | CrewAI (Multi-Agent) | LangChain (Tool Agent) |
-|--------|---------------------|------------------------|
-| **Metaphor** | Team of employees | Single agent with tools |
-| **Pattern** | Sequential handoff | ReAct (Reason + Act) |
-| **Example** | Research → Write → Edit | Question → Search → Answer |
-| **Best For** | Complex workflows | Real-time data retrieval |
-
-#### How CrewAI Specializes Agents
-
-CrewAI agents are defined with three key attributes that shape their behavior:
-
-```python
-Agent(
-    role="Research Analyst",           # Job title
-    goal="Gather info about {topic}",  # What to achieve
-    backstory="You are an experienced  # Shapes behavior
-              researcher with expertise..."
-    llm=llm
-)
-```
-
-CrewAI combines these attributes with task instructions to construct prompts sent to the LLM. This abstraction lets you define agent "personalities" without writing raw prompts.
-
-See `crews/research_crew.py` for the full implementation.
 
 ---
 
@@ -247,17 +286,17 @@ See `crews/research_crew.py` for the full implementation.
 | "Slow responses" | Normal for local AI; try OpenAI for speed |
 | "Import errors" | Run `pip install crewai langchain-community` |
 
-For detailed troubleshooting, see [Beginner's Guide - Troubleshooting](docs/BEGINNERS_GUIDE.md#troubleshooting-for-beginners).
+For detailed troubleshooting, see [Beginner's Guide — Troubleshooting](docs/BEGINNERS_GUIDE.md#troubleshooting-for-beginners).
 
 ---
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE)
+MIT License — see [LICENSE](LICENSE)
 
 ---
 
 <p align="center">
-  <b>MIT Professional Education | Agentic AI Course</b><br>
+  <b>MIT Professional Education | Applied Generative AI for Digital Transformation</b><br>
   <i>Demos work locally — API keys optional (Ollama mode)</i>
 </p>
