@@ -1,6 +1,6 @@
 """
-AgenticAI Foundry - Home Page
-MIT Professional Education: Applied Generative AI for Digital Transformation
+    AgenticAI Foundry – Home Page
+    MIT Professional Education: Applied Generative AI for Digital Transformation
 """
 
 import streamlit as st
@@ -87,6 +87,23 @@ DEMOS = [
         "doc_url": "https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/MCP_GUIDE.md",
         "doc_label": "MCP Guide",
     },
+    {
+        "module": 3,
+        "icon": "🛡️",
+        "title": "Agent Security Demo",
+        "page": "Agent Security Demo",
+        "tagline": "No single guardrail catches every attack — AI security requires **defense in depth**.",
+        "learns": [
+            "Six prompt injection attack types (direct, role-play, indirect, escalation)",
+            "Five defense layers: input filters → constitutional AI → human-in-the-loop",
+            "Toggle guardrails on/off and see what gets caught in real time",
+            "Business case: breach costs vs. guardrail ROI by industry",
+        ],
+        "assignment": "Assignment 3 — Q4: Safety measures, Q5: Rollout, Q6: Risks",
+        "api_required": "Demo Mode free; Live Mode needs OpenAI/Ollama",
+        "doc_url": "https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/SECURITY_DEMO_GUIDE.md",
+        "doc_label": "Security Demo Guide",
+    },
 ]
 
 # ─────────────────────────────────────────────
@@ -137,10 +154,9 @@ st.markdown("""
         border-radius: 8px;
         margin-top: 0.3rem;
     }
-    .api-no { background: #F0FFF4; color: #2F855A; }
+    .api-no  { background: #F0FFF4; color: #2F855A; }
     .api-opt { background: #FFF3D6; color: #975A16; }
     .api-yes { background: #FFF5F5; color: #C53030; }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -150,8 +166,6 @@ st.markdown("""
 
 st.markdown('<p class="main-header">🤖 AgenticAI Foundry</p>', unsafe_allow_html=True)
 st.markdown('<p class="sub-header">MIT Professional Education — Applied Generative AI for Digital Transformation</p>', unsafe_allow_html=True)
-
-
 
 # ─────────────────────────────────────────────
 # DEMO CARDS
@@ -184,15 +198,15 @@ for i in range(0, len(DEMOS), 2):
         with col:
             st.markdown(f"""
             <div class="demo-card">
-                <span class="module-badge">MODULE {d['module']}</span>
-                <h4>{d['icon']} {d['title']}</h4>
-                <p>{d['tagline']}</p>
-                <ul style="font-size: 0.9rem; color: #4a5568; margin: 0.5rem 0;">
-                    {learns_html}
-                </ul>
-                <p style="font-size: 0.85rem; color: #065A82;"><strong>📝 {d['assignment']}</strong></p>
-                {doc_html}
-                {api_html}
+            <span class="module-badge">MODULE {d['module']}</span>
+            <h4>{d['icon']} {d['title']}</h4>
+            <p>{d['tagline']}</p>
+            <ul style="font-size: 0.9rem; color: #4a5568; margin: 0.5rem 0;">
+            {learns_html}
+            </ul>
+            <p style="font-size: 0.85rem; color: #065A82;"><strong>📝 {d['assignment']}</strong></p>
+            {doc_html}
+            {api_html}
             </div>
             """, unsafe_allow_html=True)
 
@@ -208,7 +222,7 @@ st.info("""
 
 - **Module 1?** Start with the **LLM Cost Explorer** — no setup needed.
 - **Module 2?** Try the **Multi-Agent Demo** with Ollama (free) or OpenAI.
-- **Module 3?** Walk through the **MCP Explorer** — no setup needed.
+- **Module 3?** Walk through the **MCP Explorer** and **Agent Security Demo** — Demo Mode needs no setup.
 """)
 
 # ─────────────────────────────────────────────
@@ -217,35 +231,38 @@ st.info("""
 
 with st.expander("📚 Documentation & Setup Guides"):
     st.markdown("""
-    | Guide | Best For | What It Covers |
-    |-------|----------|----------------|
-    | **[Beginner's Guide](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/BEGINNERS_GUIDE.md)** | Absolute beginners | Full explanations of every technology, step-by-step setup |
-    | **[CrewAI Setup](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/CREWAI_SETUP.md)** | Quick reference | Commands, troubleshooting, CLI usage |
-    | **[Docker Guide](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/DOCKER_GUIDE.md)** | Container users | Docker-specific setup and troubleshooting |
-    | **[MCP Guide](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/MCP_GUIDE.md)** | Module 3 | Understanding the Model Context Protocol |
-    
-    **New to all of this?** Start with the [Beginner's Guide](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/BEGINNERS_GUIDE.md) — it explains everything from scratch.
+| Guide | Best For | What It Covers |
+|-------|----------|----------------|
+| **[Beginner's Guide](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/BEGINNERS_GUIDE.md)** | Absolute beginners | Full explanations of every technology, step-by-step setup |
+| **[CrewAI Setup](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/CREWAI_SETUP.md)** | Quick reference | Commands, troubleshooting, CLI usage |
+| **[Docker Guide](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/DOCKER_GUIDE.md)** | Container users | Docker-specific setup and troubleshooting |
+| **[MCP Guide](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/MCP_GUIDE.md)** | Module 3 | Understanding the Model Context Protocol |
+| **[Security Demo Guide](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/SECURITY_DEMO_GUIDE.md)** | Module 3 | Prompt injection attacks, guardrails, business case |
+
+**New to all of this?** Start with the [Beginner's Guide](https://github.com/dlwhyte/AgenticAI_foundry/blob/main/docs/BEGINNERS_GUIDE.md) — it explains everything from scratch.
     """)
 
 with st.expander("⚡ Quick Start Commands"):
     st.markdown("""
-    **Docker (recommended):**
-    ```bash
-    git clone https://github.com/dlwhyte/AgenticAI_foundry.git
-    cd AgenticAI_foundry
-    docker build -t agenticai-foundry .
-    docker run -p 8501:8501 agenticai-foundry
-    ```
-    
-    **Python (no Docker):**
-    ```bash
-    git clone https://github.com/dlwhyte/AgenticAI_foundry.git
-    cd AgenticAI_foundry
-    pip install -r requirements.txt
-    streamlit run Home.py
-    ```
-    
-    Then open [http://localhost:8501](http://localhost:8501)
+**Docker (recommended):**
+
+```bash
+git clone https://github.com/dlwhyte/AgenticAI_foundry.git
+cd AgenticAI_foundry
+docker build -t agenticai-foundry .
+docker run -p 8501:8501 agenticai-foundry
+```
+
+**Python (no Docker):**
+
+```bash
+git clone https://github.com/dlwhyte/AgenticAI_foundry.git
+cd AgenticAI_foundry
+pip install -r requirements.txt
+streamlit run Home.py
+```
+
+Then open [http://localhost:8501](http://localhost:8501)
     """)
 
 # ─────────────────────────────────────────────

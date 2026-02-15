@@ -4,8 +4,9 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)](https://www.docker.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**MIT Professional Education: Applied Generative AI for Digital Transformation**  
-*Interactive demos for understanding AI economics, multi-agent systems, and agent integration*
+**MIT Professional Education: Applied Generative AI for Digital Transformation**
+
+*Interactive demos for understanding AI economics, multi-agent systems, agent integration, and AI security*
 
 ---
 
@@ -17,6 +18,7 @@
 | **🤖 Multi-Agent Demo** | Module 2 | Watch three AI agents collaborate (CrewAI) | Optional |
 | **🔗 LangChain Agent Demo** | Module 2 | Single agent with web search tool (LangChain) | Optional |
 | **🔌 MCP Explorer** | Module 3 | Understand the Model Context Protocol — how AI agents connect to tools | No |
+| **🛡️ Agent Security Demo** | Module 3 | Prompt injection attacks & defense-in-depth guardrails | Demo: No / Live: Optional |
 
 > More demos will be added as the course progresses.
 
@@ -97,8 +99,23 @@ streamlit run Home.py
 - **Integration Framework** — Understand when to use which approach
 
 **Assignment:** Supports Q3 (integration), Q4 (safety), and the overall proposal design.
-
 No API key required — this is an educational simulation tool.
+
+### 🛡️ Agent Security Demo (Module 3)
+
+> No single guardrail catches every attack — AI security requires **defense in depth**.
+
+- **Six Attack Scenarios** — Direct injection, role-playing (DAN), gradual escalation, system prompt extraction, policy bypass, indirect injection
+- **Five Defense Layers** — Input validation, scope enforcement, constitutional AI review, output filtering, human-in-the-loop
+- **Interactive Testing** — Toggle guardrails on/off, test them individually, see the coverage matrix
+- **Business Impact Calculator** — Breach costs vs. guardrail ROI by industry (Healthcare, Finance, Retail, Tech)
+- **Real-World Cases** — Knight Capital ($440M), Rogers outage, Optus outage
+
+**Two modes:**
+- **Demo Mode** — Pre-built scenarios, no API key needed
+- **Live Mode** — Send real prompts to OpenAI, Anthropic, or Ollama with guardrails you control
+
+**Assignment:** Supports Q4 (safety & guardrails), Q5 (rollout), Q6 (risks & mitigation).
 
 ---
 
@@ -122,10 +139,8 @@ The Multi-Agent and LangChain demos need an AI "brain." You have two options:
 
 ```bash
 # 1. Install Ollama
-# macOS:
-brew install ollama
-# Linux:
-curl -fsSL https://ollama.ai/install.sh | sh
+# macOS: brew install ollama
+# Linux: curl -fsSL https://ollama.ai/install.sh | sh
 # Windows: Download from https://ollama.ai
 
 # 2. Download an AI model (2 GB, takes 2-5 min)
@@ -142,6 +157,7 @@ pip install -r requirements-crewai.txt
 
 ```bash
 # 1. Get an API key from platform.openai.com
+
 # 2. Set it in your environment
 export OPENAI_API_KEY="sk-your-key-here"
 
@@ -159,6 +175,7 @@ pip install -r requirements-crewai.txt
 | **[LLM Cost Guide](docs/LLM_COST_GUIDE.md)** | Module 1 | Token economics, model selection, cost drivers |
 | **[Multi-Agent Guide](docs/MULTI_AGENT_GUIDE.md)** | Module 2 | CrewAI vs LangChain, single-agent vs multi-agent patterns |
 | **[MCP Guide](docs/MCP_GUIDE.md)** | Module 3 | Understanding the Model Context Protocol |
+| **[Security Demo Guide](docs/SECURITY_DEMO_GUIDE.md)** | Module 3 | Prompt injection attacks, guardrails, business case |
 | **[CrewAI Setup](docs/CREWAI_SETUP.md)** | Quick reference | Commands, troubleshooting, CLI usage |
 | **[Docker Guide](docs/DOCKER_GUIDE.md)** | Container users | Docker-specific setup |
 
@@ -170,28 +187,30 @@ pip install -r requirements-crewai.txt
 
 ```
 AgenticAI_foundry/
-├── Home.py                        # Landing page — course hub
+├── Home.py                         # Landing page — course hub
 ├── pages/
-│   ├── 1_LLM_Cost_Calculator.py   # Cost calculator (Module 1)
-│   ├── 2_Multi_Agent_Demo.py      # CrewAI multi-agent demo (Module 2)
-│   ├── 3_LangChain_Agent_Demo.py  # LangChain tool agent (Module 2)
-│   └── 4_MCP_Explorer.py          # MCP protocol explorer (Module 3)
-├── crews/                         # 🧠 CrewAI multi-agent logic
+│   ├── 1_LLM_Cost_Calculator.py    # Cost calculator (Module 1)
+│   ├── 2_Multi_Agent_Demo.py       # CrewAI multi-agent demo (Module 2)
+│   ├── 3_LangChain_Agent_Demo.py   # LangChain tool agent (Module 2)
+│   ├── 4_MCP_Explorer.py           # MCP protocol explorer (Module 3)
+│   └── 5_Agent_Security_Demo.py    # Prompt injection & guardrails (Module 3)
+├── crews/                          # 🧠 CrewAI multi-agent logic
 │   ├── __init__.py
-│   └── research_crew.py           # Agent definitions & orchestration
-├── agents/                        # 🔗 LangChain single-agent logic
+│   └── research_crew.py            # Agent definitions & orchestration
+├── agents/                         # 🔗 LangChain single-agent logic
 │   ├── __init__.py
-│   └── crypto_agent.py            # Web search agent for crypto prices
+│   └── crypto_agent.py             # Web search agent for crypto prices
 ├── docs/
-│   ├── BEGINNERS_GUIDE.md         # Comprehensive beginner tutorial
-│   ├── LLM_COST_GUIDE.md          # Module 1: Token economics & cost analysis
-│   ├── MULTI_AGENT_GUIDE.md       # Module 2: CrewAI vs LangChain patterns
-│   ├── MCP_GUIDE.md               # Module 3: Model Context Protocol
-│   ├── CREWAI_SETUP.md            # Quick setup reference
-│   └── DOCKER_GUIDE.md            # Docker setup guide
+│   ├── BEGINNERS_GUIDE.md          # Comprehensive beginner tutorial
+│   ├── LLM_COST_GUIDE.md           # Module 1: Token economics & cost analysis
+│   ├── MULTI_AGENT_GUIDE.md        # Module 2: CrewAI vs LangChain patterns
+│   ├── MCP_GUIDE.md                # Module 3: Model Context Protocol
+│   ├── SECURITY_DEMO_GUIDE.md      # Module 3: Prompt injection & guardrails
+│   ├── CREWAI_SETUP.md             # Quick setup reference
+│   └── DOCKER_GUIDE.md             # Docker setup guide
 ├── Dockerfile
-├── requirements.txt               # Base Streamlit dependencies
-├── requirements-crewai.txt        # CrewAI + LangChain dependencies
+├── requirements.txt                # Base Streamlit dependencies
+├── requirements-crewai.txt         # CrewAI + LangChain dependencies
 └── README.md
 ```
 
@@ -200,11 +219,13 @@ AgenticAI_foundry/
 ## 📊 Module Connections
 
 ### Module 1: LLM Cost Explorer
+
 > **The same AI transaction can cost between $1 and $230** — a 200x variance!
 
 Use this tool to understand token economics and model pricing before scaling AI in your org.
 
 ### Module 2: Multi-Agent Systems
+
 > Watch agents collaborate: **Researcher → Writer → Editor**
 
 See multi-agent orchestration (CrewAI) and single-agent reasoning (LangChain) side by side.
@@ -222,20 +243,25 @@ See multi-agent orchestration (CrewAI) and single-agent reasoning (LangChain) si
 
 ```python
 Agent(
-    role="Research Analyst",           # Job title
-    goal="Gather info about {topic}",  # What to achieve
-    backstory="You are an experienced  # Shapes behavior
-              researcher with expertise..."
+    role="Research Analyst",             # Job title
+    goal="Gather info about {topic}",    # What to achieve
+    backstory="You are an experienced    # Shapes behavior
+               researcher with expertise..."
     llm=llm
 )
 ```
 
 CrewAI combines these attributes with task instructions to construct prompts sent to the LLM. See `crews/research_crew.py` for the full implementation.
 
-### Module 3: MCP & Agent Integration
-> MCP is **USB-C for AI** — one standard protocol connecting agents to any tool.
+### Module 3: Agent Security & Integration
 
-The MCP Explorer walks you through how agents connect to external tools (calendars, CRMs, monitoring systems) using a standardized protocol, and compares this approach to alternatives like Zapier and custom APIs.
+> MCP is **USB-C for AI** — and guardrails are the **safety net underneath**.
+
+Two demos cover Module 3:
+
+**MCP Explorer** — How agents connect to tools via a standardized protocol. Compares MCP vs. Zapier vs. custom APIs across real scenarios (calendar scheduling, CRM lookup, DevOps triage).
+
+**Agent Security Demo** — How agents can be attacked via prompt injection and how to defend them with layered guardrails. Covers six attack types, five defense layers, and the business case for investing in AI security.
 
 #### MCP vs Other Approaches
 
@@ -245,6 +271,16 @@ The MCP Explorer walks you through how agents connect to external tools (calenda
 | **AI Awareness** | None — trigger/action | Manual integration | Native AI support |
 | **Context / Memory** | No | Build it yourself | Built-in |
 | **Best For** | Simple automations | Unique business logic | AI agent ecosystems |
+
+#### Defense in Depth
+
+| Layer | What It Does | Cost | Catches |
+|-------|-------------|------|---------|
+| 🔍 Input Validation | Keyword/pattern scan of user input | ~5ms, free | Known attack patterns |
+| 🎯 Scope Enforcement | Whitelist of allowed agent actions | ~5ms, free | Privilege escalation |
+| 🧠 Constitutional Review | Second LLM reviews draft response | ~1–2s, 2× API cost | Subtle, creative attacks |
+| 🔒 Output Filtering | Scan response for PII/secrets | ~10ms, free | Data leaks |
+| 👤 Human-in-the-Loop | Human approves high-risk actions | Minutes | Financial/irreversible actions |
 
 ---
 
