@@ -26,6 +26,7 @@ try:
         get_available_providers,
         check_ollama_running,
         check_ollama_model,
+        get_ollama_models,
         PROVIDER_CONFIGS
     )
     CREW_AVAILABLE = True
@@ -254,20 +255,32 @@ with st.sidebar:
     if provider_choice == "ollama":
         # Check Ollama status
         ollama_running = check_ollama_running()
+
         if ollama_running:
             st.success("✅ Ollama is running")
-            if check_ollama_model():
-                st.caption("llama3.2 model ready")
+
+            # Dynamically get installed models
+            available_models = get_ollama_models()
+
+            if available_models:
+                default_idx = 0
+                if "llama3.2" in available_models:
+                    default_idx = available_models.index("llama3.2")
+
+                ollama_model = st.selectbox(
+                    "Model",
+                    options=available_models,
+                    index=default_idx,
+                    help="Models detected from your local Ollama installation"
+                )
+                st.caption(f"📦 {len(available_models)} model(s) installed")
             else:
-                st.warning("⚠️ llama3.2 not found. Run: `ollama pull llama3.2`")
+                st.warning("⚠️ No models found. Run: `ollama pull llama3.2`")
+                ollama_model = "llama3.2"
         else:
             st.error("❌ Ollama not running. Start with: `ollama serve`")
-        
-        ollama_model = st.selectbox(
-            "Model",
-            options=["llama3.2", "llama3.1", "mistral", "phi3", "gemma2"],
-            help="Select Ollama model"
-        )
+            ollama_model = "llama3.2"
+
         api_key = None
         
     elif provider_choice == "openai":
