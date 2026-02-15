@@ -316,7 +316,26 @@ def check_ollama_model(model: str = "llama3.2") -> bool:
             return model in models or f"{model}:latest" in [m.get("name", "") for m in data.get("models", [])]
     except Exception:
         return False
-
+        
+def get_ollama_models() -> list:
+    """Get list of models available in the local Ollama installation."""
+    try:
+        import urllib.request
+        import json
+        req = urllib.request.Request(f"{OLLAMA_HOST}/api/tags")
+        with urllib.request.urlopen(req, timeout=3) as response:
+            data = json.loads(response.read().decode())
+            models = []
+            for m in data.get("models", []):
+                name = m.get("name", "")
+                if name:
+                    models.append(name)
+                    short_name = name.split(":")[0]
+                    if short_name != name and short_name not in models:
+                        models.append(short_name)
+            return sorted(set(models))
+    except Exception:
+        return ["llama3.2", "llama3.1", "mistral", "phi3", "gemma2"]
 
 # =============================================================================
 # AGENT DEFINITIONS
