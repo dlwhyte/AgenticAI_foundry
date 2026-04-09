@@ -7,7 +7,8 @@
 **MIT Professional Education: Applied Generative AI for Digital Transformation**
 *Interactive demos for understanding AI economics, multi-agent systems, and agent integration*
 
----> 📚 **New to Generative AI?** Start with [GenAI Foundry](https://github.com/dlwhyte/GenAI_foundry) to learn LLMs, RAG, and prompt engineering before diving into agents.
+---
+> 📚 **New to Generative AI?** Start with [GenAI Foundry](https://github.com/dlwhyte/GenAI_foundry) to learn LLMs, RAG, and prompt engineering before diving into agents.
 
 
 
