@@ -290,7 +290,8 @@ AgenticAI_foundry/
 │   ├── 2_Multi_Agent_Demo.py       # Module 2: CrewAI multi-agent
 │   ├── 3_LangChain_Agent_Demo.py   # Module 2: LangChain single agent
 │   ├── 4_MCP_Explorer.py           # Module 3: MCP protocol
-│   └── 5_Agent_Security_Demo.py    # Module 4: Prompt injection & guardrails
+│   ├── 5_Agent_Security_Demo.py    # Module 4: Prompt injection & guardrails
+│   └── 6_HITL_Demo.py              # Module 5: Human-in-the-Loop patterns
 ├── crews/                           # Multi-agent logic (CrewAI)
 ├── agents/                          # Single-agent logic (LangChain)
 ├── docs/                            # All guides and documentation
@@ -348,4 +349,4 @@ MIT License — see [LICENSE](LICENSE)
 ---
 
 *MIT Professional Education | Applied Generative AI for Digital Transformation*
-*Modules 1, 3 & 5 (Demo Mode) work immediately with no API key · Module 2 requires Ollama or OpenAI*
+*Modules 1, 3, 4 & 5 work immediately with no API key · Module 2 requires Ollama or OpenAI*
