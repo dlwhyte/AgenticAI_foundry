@@ -1,11 +1,6 @@
-# Core Streamlit app
-streamlit>=1.31.0
+# Core Streamlit app (no-API-key modules: Cost Explorer, MCP, Security, HITL)
+streamlit>=1.34.0
 plotly>=5.18.0
 pandas>=2.0.0
 numpy>=1.24.0
 tiktoken>=0.5.0
-
-# CrewAI Multi-Agent Demo (Module 2)
-crewai>=0.28.0
-langchain-community>=0.0.20
-langchain-openai>=0.0.5
