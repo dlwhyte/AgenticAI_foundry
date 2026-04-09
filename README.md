@@ -277,6 +277,7 @@ For full setup instructions for both options, see `docs/CREWAI_SETUP.md`.
 | [🤖 Multi-Agent Guide](docs/MULTI_AGENT_GUIDE.md) | CrewAI vs LangChain patterns (Module 2) |
 | [🔌 MCP Guide](docs/MCP_GUIDE.md) | Model Context Protocol explained (Module 3) |
 | [⚙️ CrewAI Setup](docs/CREWAI_SETUP.md) | Ollama and OpenAI setup for agent demos |
+| [🧑‍✈️ HITL Guide](docs/HITL_GUIDE.md) | Human-in-the-Loop patterns (Module 5) |
 
 ---
 
