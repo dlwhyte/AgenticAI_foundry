@@ -17,6 +17,7 @@ ORANGE = colors.HexColor('#F5A623')
 LGREY  = colors.HexColor('#F5F5F5')
 MGREY  = colors.HexColor('#CCCCCC')
 YELLOW = colors.HexColor('#FFF3CD')
+WHITE  = colors.white
 
 def s(name, **kw):
     d = dict(fontName='Helvetica', fontSize=9, leading=13,
@@ -24,13 +25,15 @@ def s(name, **kw):
     d.update(kw)
     return ParagraphStyle(name, **d)
 
-TITLE = s('T',  fontName='Helvetica-Bold', fontSize=28, textColor=colors.white, alignment=TA_CENTER, spaceAfter=4)
-SUB1  = s('S1', fontSize=14, textColor=colors.white, alignment=TA_CENTER)
-SUB2  = s('S2', fontName='Helvetica-BoldOblique', fontSize=11, textColor=colors.white, alignment=TA_CENTER)
+TITLE = s('T',  fontName='Helvetica-Bold', fontSize=28, textColor=WHITE, alignment=TA_CENTER, spaceAfter=4)
+SUB1  = s('S1', fontSize=14, textColor=WHITE, alignment=TA_CENTER)
+SUB2  = s('S2', fontName='Helvetica-BoldOblique', fontSize=11, textColor=WHITE, alignment=TA_CENTER)
 H1    = s('H1', fontName='Helvetica-Bold', fontSize=15, textColor=NAVY, spaceBefore=14, spaceAfter=4)
 H2    = s('H2', fontName='Helvetica-Bold', fontSize=12, textColor=NAVY, spaceBefore=10, spaceAfter=3)
 BODY  = s('B')
 BOLD  = s('Bb', fontName='Helvetica-Bold')
+# White versions for table headers
+HDRW  = s('Hw', fontName='Helvetica-Bold', textColor=WHITE)
 CODE  = s('C',  fontName='Courier', fontSize=8.5, backColor=LGREY, borderPadding=4, leading=12)
 NOTE  = s('N',  fontName='Helvetica-Oblique', textColor=NAVY, leftIndent=10)
 FOOT  = s('F',  fontSize=8, textColor=colors.grey, alignment=TA_CENTER)
@@ -40,10 +43,8 @@ def mktbl(data, widths):
     t = Table(data, colWidths=widths)
     t.setStyle(TableStyle([
         ('BACKGROUND',    (0,0),(-1,0), NAVY),
-        ('TEXTCOLOR',     (0,0),(-1,0), colors.white),
-        ('FONTNAME',      (0,0),(-1,0), 'Helvetica-Bold'),
         ('FONTSIZE',      (0,0),(-1,-1), 9),
-        ('ROWBACKGROUNDS',(0,1),(-1,-1), [colors.white, LGREY]),
+        ('ROWBACKGROUNDS',(0,1),(-1,-1), [WHITE, LGREY]),
         ('GRID',          (0,0),(-1,-1), 0.5, MGREY),
         ('VALIGN',        (0,0),(-1,-1), 'MIDDLE'),
         ('TOPPADDING',    (0,0),(-1,-1), 4),
@@ -54,6 +55,10 @@ def mktbl(data, widths):
 
 def p(text, style=None):
     return Paragraph(str(text), style or BODY)
+
+def h(text):
+    """Header cell paragraph - white bold text."""
+    return Paragraph(str(text), HDRW)
 
 def build(filename='Student_Quick_Start.pdf'):
     doc = SimpleDocTemplate(filename, pagesize=letter,
@@ -84,7 +89,7 @@ def build(filename='Student_Quick_Start.pdf'):
               Spacer(1,0.05*inch), p("What's Included", H1)]
 
     mods = [
-        [p('Demo',BOLD), p('Module',BOLD), p('What You Will Learn',BOLD), p('API Key?',BOLD)],
+        [h('Demo'), h('Module'), h('What You Will Learn'), h('API Key?')],
         [p('LLM Cost Explorer'),    p('Module 1'), p('Why the same AI task can cost $1 or $230 depending on model choice'), p('No')],
         [p('Multi-Agent Demo'),     p('Module 2'), p('How three AI agents collaborate like a team (CrewAI)'),               p('Optional')],
         [p('LangChain Agent Demo'), p('Module 2'), p('How a single agent uses tools to answer questions in real time'),     p('Optional')],
@@ -101,14 +106,14 @@ def build(filename='Student_Quick_Start.pdf'):
               Spacer(1,0.05*inch)]
 
     gc = Table([
-        [p('<b>Option 1: Download ZIP</b> (easiest)', BOLD), p('<b>Option 2: Clone with Git</b>', BOLD)],
+        [h('Option 1: Download ZIP (easiest)'), h('Option 2: Clone with Git')],
         [p('1. Click the green &lt;&gt; Code button on GitHub<br/>'
            '2. Click Download ZIP<br/>'
            '3. Find it in Downloads and extract it'),
          p('<font name="Courier" size="8">git clone https://github.com/dlwhyte/AgenticAI_foundry.git</font>')],
     ], colWidths=[3.5*inch, 3.5*inch])
     gc.setStyle(TableStyle([
-        ('BACKGROUND',(0,0),(-1,0),NAVY), ('TEXTCOLOR',(0,0),(-1,0),colors.white),
+        ('BACKGROUND',(0,0),(-1,0),NAVY),
         ('GRID',(0,0),(-1,-1),0.5,MGREY), ('VALIGN',(0,0),(-1,-1),'TOP'),
         ('TOPPADDING',(0,0),(-1,-1),5), ('BOTTOMPADDING',(0,0),(-1,-1),5),
         ('LEFTPADDING',(0,0),(-1,-1),6),
@@ -126,7 +131,7 @@ def build(filename='Student_Quick_Start.pdf'):
                 'Time: about 20 minutes first time, under 1 minute after that.')]
 
     docker_rows = [
-        [p('Step',BOLD), p('Action',BOLD), p('Command / Detail',BOLD)],
+        [h('Step'), h('Action'), h('Command / Detail')],
         [p('1'), p('Install Docker Desktop'),
          p('Windows/Mac: docker.com/products/docker-desktop<br/>Linux: see docs/DOCKER_GUIDE.md')],
         [p('2'), p('Open a Terminal'),
@@ -145,7 +150,7 @@ def build(filename='Student_Quick_Start.pdf'):
     story.append(mktbl(docker_rows, [0.45*inch, 1.6*inch, 4.95*inch]))
     story += [Spacer(1,0.1*inch), p('Docker Troubleshooting', H2)]
     dt = [
-        [p('Problem',BOLD), p('Solution',BOLD)],
+        [h('Problem'), h('Solution')],
         [p('"Docker command not found"'),    p('Make sure Docker Desktop is open and running')],
         [p('"Cannot connect to daemon"'),    p('Open Docker Desktop; wait for the whale to stop animating')],
         [p('"Port 8501 already in use"'),    p('Run: docker run -p 8502:8501 agenticai-foundry  then open :8502')],
@@ -165,7 +170,7 @@ def build(filename='Student_Quick_Start.pdf'):
               Spacer(1,0.06*inch)]
 
     py_rows = [
-        [p('Step',BOLD), p('Action',BOLD), p('Detail',BOLD)],
+        [h('Step'), h('Action'), h('Detail')],
         [p('1'), p('Install Python 3.10+'),
          p('Check version: python3 --version<br/>'
            'If 3.9 or lower: download from python.org/downloads<br/>'
@@ -193,7 +198,7 @@ def build(filename='Student_Quick_Start.pdf'):
     ]))
     story += [Spacer(1,0.08*inch), warn, Spacer(1,0.1*inch), p('Python Troubleshooting', H2)]
     pyt = [
-        [p('Problem',BOLD), p('Solution',BOLD)],
+        [h('Problem'), h('Solution')],
         [p('"pip not found"'),             p('Try pip3 install -r requirements.txt instead')],
         [p('"streamlit not found"'),       p('Try python -m streamlit run Home.py')],
         [p('"Permission denied"'),         p('Add --user: pip install --user -r requirements.txt')],
@@ -211,7 +216,7 @@ def build(filename='Student_Quick_Start.pdf'):
               Spacer(1,0.06*inch), p('Option A: Ollama - Free, runs locally, no account needed', H2)]
 
     ol = [
-        [p('Step',BOLD), p('Command',BOLD)],
+        [h('Step'), h('Command')],
         [p('1. Install Ollama'),   p('Download from ollama.ai')],
         [p('2. Download model'),   p('ollama pull llama3.2  (2GB one-time download)')],
         [p('3. Start Ollama'),     p('ollama serve  (keep this terminal open)')],
@@ -229,7 +234,7 @@ def build(filename='Student_Quick_Start.pdf'):
               Spacer(1,0.06*inch)]
 
     exp = [
-        [p('Module',BOLD), p('What You Should See',BOLD)],
+        [h('Module'), h('What You Should See')],
         [p('Module 1: LLM Cost Explorer'),    p('Interactive cost comparison charts - no API key needed')],
         [p('Module 2: Multi-Agent Demo'),      p('Requires Ollama running or OpenAI key in sidebar')],
         [p('Module 2: LangChain Agent Demo'),  p('Live crypto price lookups - requires Ollama or OpenAI')],
@@ -244,7 +249,7 @@ def build(filename='Student_Quick_Start.pdf'):
     story.append(PageBreak())
     story += [p('Documentation and Getting Help', H1)]
     docs = [
-        [p('Guide',BOLD), p('What It Covers',BOLD)],
+        [h('Guide'), h('What It Covers')],
         [p('Student Quick Start (this PDF)'),  p("Screenshots walkthrough - start here if you're new")],
         [p('docs/DOCKER_GUIDE.md'),            p('Full Docker setup with troubleshooting')],
         [p('docs/BEGINNERS_GUIDE.md'),         p('Deep explanation of all technologies used')],
@@ -274,7 +279,7 @@ def build(filename='Student_Quick_Start.pdf'):
                    'Modules 1, 3, 4 and 5 work immediately with no API key  |  Module 2 requires Ollama or OpenAI<br/>'
                    'MIT License - github.com/dlwhyte/AgenticAI_foundry',
                    ParagraphStyle('FB', fontName='Helvetica', fontSize=8.5,
-                                  textColor=colors.white, alignment=TA_CENTER, leading=13))]], colWidths=[W])
+                                  textColor=WHITE, alignment=TA_CENTER, leading=13))]], colWidths=[W])
     fb.setStyle(TableStyle([
         ('BACKGROUND',(0,0),(-1,-1),NAVY),
         ('TOPPADDING',(0,0),(-1,-1),10), ('BOTTOMPADDING',(0,0),(-1,-1),10),
