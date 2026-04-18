@@ -22,8 +22,7 @@ from dataclasses import dataclass, field
 from typing import Optional, Callable, List
 
 from langchain_core.tools import Tool
-from langchain.agents import create_react_agent
-from langchain.agents.agent import AgentExecutor
+from langchain.agents import create_react_agent, AgentExecutor
 from langchain_core.prompts import PromptTemplate
 
 
