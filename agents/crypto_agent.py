@@ -22,8 +22,7 @@ from dataclasses import dataclass, field
 from typing import Optional, Callable, List
 
 from langchain_core.tools import Tool
-from langchain.agents.agent import AgentExecutor
-from langchain.agents.react.agent import create_react_agent
+from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import PromptTemplate
 
 
@@ -272,21 +271,32 @@ def run_crypto_agent(
 
         if callback:
             callback("status", "Creating agent...")
-        agent = create_react_agent(llm, tools, prompt)
-
-        agent_executor = AgentExecutor(
-            agent=agent,
-            tools=tools,
-            verbose=verbose,
-            handle_parsing_errors=True,
-            max_iterations=5,
-        )
-
-        if callback:
-            callback("status", "🔍 Agent is fetching live prices...")
-
-        result = agent_executor.invoke({"input": query})
-        response = result.get("output", "No response generated")
+        # Direct ReAct loop - LangChain 1.x compatible (no AgentExecutor)
+        tool_map = {t.name: t for t in tools}
+        tool_desc = "\n".join([t.name + ": " + t.description for t in tools])
+        tool_names = ", ".join([t.name for t in tools])
+        scratchpad = ""
+        response = "No response generated"
+        for _i in range(5):
+            full_prompt = REACT_PROMPT.format(
+                tools=tool_desc, tool_names=tool_names,
+                input=query, agent_scratchpad=scratchpad
+            )
+            if callback:
+                callback("status", "Fetching live prices (step " + str(_i+1) + ")...")
+            llm_out = llm.invoke(full_prompt)
+            text = llm_out.content if hasattr(llm_out, "content") else str(llm_out)
+            if "Final Answer:" in text:
+                response = text.split("Final Answer:")[-1].strip()
+                break
+            if "Action:" in text and "Action Input:" in text:
+                action = text.split("Action:")[-1].split("\n")[0].strip()
+                action_input = text.split("Action Input:")[-1].split("\n")[0].strip()
+                obs = tool_map[action].func(action_input) if action in tool_map else "Tool not found."
+                scratchpad += text + "\nObservation: " + obs + "\nThought: "
+            else:
+                response = text.strip()
+                break
 
         telemetry.response = response
         telemetry.status = "complete"
